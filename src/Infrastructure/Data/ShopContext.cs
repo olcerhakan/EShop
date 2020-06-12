@@ -25,7 +25,7 @@ namespace Infrastructure.Data
             // https://www.learnentityframeworkcore.com/configuration/fluent-api
             //TANE TANE HER BİRİNİ APPLY ETMEK İÇİN 
             //modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-            
+            // hepsini 3 dosyayı birden aktif edecek
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
