@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Infrastructure.Identity;
 using Infrastructure.Data;
+using ApplicationCore.Interfaces;
 
 namespace Web
 {
@@ -40,6 +41,9 @@ namespace Web
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddDefaultUI().AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+
 //account register login ui 
             services.AddControllersWithViews();
             services.AddRazorPages();
