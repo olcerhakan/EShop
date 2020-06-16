@@ -13,20 +13,30 @@ namespace Infrastructure.Data
         public static async Task SeedAsync(ShopContext shopContext)
         {
             shopContext.Database.Migrate();
+
             if (!await shopContext.Categories.AnyAsync())
             {
-                shopContext.Categories.AddRange(GetCategories());
-                await shopContext.SaveChangesAsync();
+                foreach (var category in GetCategories())
+                {
+                    shopContext.Categories.Add(category);
+                    await shopContext.SaveChangesAsync();
+                }
             }
             if (!await shopContext.Brands.AnyAsync())
             {
-                shopContext.Brands.AddRange(GetBrands());
-                await shopContext.SaveChangesAsync();
+                foreach (var brand in GetBrands())
+                {
+                    shopContext.Brands.Add(brand);
+                    await shopContext.SaveChangesAsync();
+                }
             }
             if (!await shopContext.Products.AnyAsync())
             {
-                shopContext.Products.AddRange(GetProducts());
-                await shopContext.SaveChangesAsync();
+                foreach (var product in GetProducts())
+                {
+                    shopContext.Products.Add(product);
+                    await shopContext.SaveChangesAsync();
+                }
             }
         }
 
@@ -36,8 +46,8 @@ namespace Infrastructure.Data
             {
                 new Category { CategoryName = "2 In 1" },
                 new Category { CategoryName = "Laptop" },
-                new Category {  CategoryName = "Gaming Notebook" },
-                new Category {  CategoryName = "Ultrabook" }
+                new Category { CategoryName = "Gaming Notebook" },
+                new Category { CategoryName = "Ultrabook" }
             };
         }
 
@@ -45,12 +55,12 @@ namespace Infrastructure.Data
         {
             return new List<Brand>()
             {
-                new Brand {  BrandName = "Lenovo" },
-                new Brand {  BrandName = "HP" },
-                new Brand {  BrandName = "Apple" },
-                new Brand {  BrandName = "Asus" },
+                new Brand { BrandName = "Lenovo" },
+                new Brand { BrandName = "HP" },
+                new Brand { BrandName = "Apple" },
+                new Brand { BrandName = "Asus" },
                 new Brand { BrandName = "Dell" },
-                new Brand {  BrandName = "MSI" }
+                new Brand { BrandName = "MSI" }
             };
         }
 
@@ -60,7 +70,6 @@ namespace Infrastructure.Data
             {
                 new Product
                 {
-                  
                     CategoryId = 1,
                     BrandId = 1,
                     ProductName = "LENOVO IDEAPAD C340",
@@ -70,7 +79,6 @@ namespace Infrastructure.Data
                 },
                 new Product
                 {
-                   
                     CategoryId = 1,
                     BrandId = 1,
                     ProductName = "LENOVO YOGA C940",
@@ -80,7 +88,6 @@ namespace Infrastructure.Data
                 },
                 new Product
                 {
-                   
                     CategoryId = 1,
                     BrandId = 2,
                     ProductName = "HP ENVY X360 13-AR0003NT",
@@ -90,7 +97,6 @@ namespace Infrastructure.Data
                 },
                 new Product
                 {
-                  
                     CategoryId = 2,
                     BrandId = 1,
                     ProductName = "LENOVO IDEAPAD L3",
@@ -100,7 +106,6 @@ namespace Infrastructure.Data
                 },
                 new Product
                 {
-                   
                     CategoryId = 2,
                     BrandId = 3,
                     ProductName = "MACBOOK PRO TOUCH BAR",
@@ -110,7 +115,6 @@ namespace Infrastructure.Data
                 },
                 new Product
                 {
-                   
                     CategoryId = 2,
                     BrandId = 4,
                     ProductName = "ASUS X509JB",
@@ -129,7 +133,6 @@ namespace Infrastructure.Data
                 },
                 new Product
                 {
-                 
                     CategoryId = 2,
                     BrandId = 2,
                     ProductName = "HP 15-DA1116NT",
@@ -148,7 +151,6 @@ namespace Infrastructure.Data
                 },
                 new Product
                 {
-                 
                     CategoryId = 2,
                     BrandId = 4,
                     ProductName = "ASUS X509FB",
@@ -158,7 +160,6 @@ namespace Infrastructure.Data
                 },
                 new Product
                 {
-                    
                     CategoryId = 3,
                     BrandId = 4,
                     ProductName = "ASUS A15 TUF FA506IU",
@@ -168,7 +169,6 @@ namespace Infrastructure.Data
                 },
                 new Product
                 {
-                   
                     CategoryId = 3,
                     BrandId = 6,
                     ProductName = "MSI GF75",
@@ -178,7 +178,6 @@ namespace Infrastructure.Data
                 },
                 new Product
                 {
-                   
                     CategoryId = 3,
                     BrandId = 2,
                     ProductName = "HP PAVILION 15-CX0039NT",
@@ -188,7 +187,6 @@ namespace Infrastructure.Data
                 },
                 new Product
                 {
-                 
                     CategoryId = 3,
                     BrandId = 1,
                     ProductName = "LENOVO LEGION Y740",

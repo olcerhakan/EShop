@@ -16,27 +16,26 @@ namespace Web.Services
         private readonly IAsyncRepository<Brand> _brandRepository;
         private readonly IAsyncRepository<Product> _productRepository;
 
-        public HomeIndexViewModelService(IAsyncRepository<Category> categoryRepository, 
-            IAsyncRepository<Brand> brandRepository , IAsyncRepository<Product> productRepository)
+        public HomeIndexViewModelService(IAsyncRepository<Category> categoryRepository, IAsyncRepository<Brand> brandRepository, IAsyncRepository<Product> productRepository)
         {
-           _categoryRepository = categoryRepository;
-           _brandRepository = brandRepository;
-           _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
+            _brandRepository = brandRepository;
+            _productRepository = productRepository;
         }
+
         public async Task<List<SelectListItem>> GetBrands()
         {
-            var brands =await _brandRepository.ListAllAsync();
+            var brands = await _brandRepository.ListAllAsync();
 
             var items = brands
                 .Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.BrandName })
                 .OrderBy(x => x.Text)
                 .ToList();
 
-            var allItem = new SelectListItem() { Value = null, Text = "All" };
-            items.Insert(0,allItem);
+            var allItem = new SelectListItem() { Value = null, Text = "All", Selected = true };
+            items.Insert(0, allItem);
 
             return items;
-
         }
 
         public async Task<List<SelectListItem>> GetCategories()
@@ -48,23 +47,24 @@ namespace Web.Services
                 .OrderBy(x => x.Text)
                 .ToList();
 
-            var allItem = new SelectListItem() { Value = null, Text = "All"  };
+            var allItem = new SelectListItem() { Value = null, Text = "All" };
             items.Insert(0, allItem);
 
             return items;
-
         }
 
-        public async Task<HomeIndexViewModel> GetHomeIndexViewModel(int? categoryId,int? brandId)
+        public async Task<HomeIndexViewModel> GetHomeIndexViewModel(int? categoryId, int? brandId)
         {
             var vm = new HomeIndexViewModel
             {
                 Categories = await GetCategories(),
                 Brands = await GetBrands(),
-                Products = await _productRepository.ListAllAsync(),
+                Products = await _productRepository.ListAsync(x =>
+                    (!categoryId.HasValue || x.CategoryId == categoryId) && (!brandId.HasValue || x.BrandId == brandId)),
                 CategoryId = categoryId,
                 BrandId = brandId
             };
+
             return vm;
         }
     }
